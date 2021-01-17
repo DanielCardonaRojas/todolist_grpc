@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  # todolist_server:
+  #   build: .
+  #   env_file: .env
+  #   environment:
+  #     - MONGO_USERNAME=$MONGO_ROOT_USERNAME
+  #     - MONGO_PASSWORD=$MONGO_ROOT_PASSWORD
+  #     - MONGO_PORT=$MONGO_PORT
+  #     - MONGO_DB=$MONGO_DB
+  #     - MONGO_HOST=mongo
+  #     - ENV_PORT=$ENV_PORT
+  #   ports:
+  #     - 3500:9000
+  #   networks:
+  #     - app-network
+
+  mongo:
+    image: mongo
+    restart: always
+    command: [--auth]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: app
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb:

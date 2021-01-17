@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message TodoItem {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message TodoItemEdit {
+  optional string title = 1;
+  optional string description = 2;
+}
+
+message Void {
+}
+
+message TodoItems {
+  repeated TodoItem items = 1;
+}
+
+service TodoService {
+    rpc create(TodoItem) returns (TodoItem);
+    rpc getAll(Void) returns (TodoItems);
+}
